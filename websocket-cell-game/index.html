@@ -19,7 +19,7 @@
         let gameId = null;
         let playerColor = null;
 
-        let ws = new WebSocket("ws://localhost:9090")
+        let ws = new WebSocket("ws://localhost:9092")
         const btnCreate = document.getElementById("btnCreate");
         const btnJoin = document.getElementById("btnJoin");
         const txtGameId = document.getElementById("txtGameId");
@@ -66,7 +66,8 @@
             //create
             if (response.method === "create"){
                 gameId = response.game.id;
-                console.log("game successfully created with id " + response.game.id + " with " + response.game.balls + " balls")  
+                console.log("game successfully created with id " + response.game.id + " with " + response.game.balls + " balls");
+                copyToClipboard(response.game.id);
             }
 
 
@@ -131,6 +132,24 @@
 
 
             }
+        }
+        // Since Async Clipboard API is not supported for all browser!
+        function copyToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+        
+            try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying text command was ' + msg);
+            } catch (err) {
+            console.log('Oops, unable to copy');
+            }
+        
+            document.body.removeChild(textArea);
         }
     </script>
 </body>

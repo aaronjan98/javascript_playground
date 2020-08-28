@@ -2,10 +2,10 @@ const http = require("http");
 const app = require("express")();
 app.get("/", (req,res)=> res.sendFile(__dirname + "/index.html"))
 
-app.listen(9091, ()=>console.log("Listening on http port 9091"))
+app.listen(9093, ()=>console.log("Listening on http port 9093"))
 const websocketServer = require("websocket").server
 const httpServer = http.createServer();
-httpServer.listen(9090, () => console.log("Listening.. on 9090"))
+httpServer.listen(9092, () => console.log("Listening.. on 9092"))
 //hashmap clients
 const clients = {};
 const games = {};
@@ -57,7 +57,7 @@ wsServer.on("request", request => {
                 "color": color
             })
             //start the game
-            if (game.clients.length === 3) updateGameState();
+            if (game.clients.length === 2) updateGameState();
 
             const payLoad = {
                 "method": "join",
@@ -65,7 +65,7 @@ wsServer.on("request", request => {
             }
             //loop through all clients and tell them that people has joined
             game.clients.forEach(c => {
-                clients[c.clientId].connection.send(JSON.stringify(payLoad))
+                clients[c.clientId].connection.send(JSON.stringify(payLoad));
             })
         }
         //a user plays
@@ -115,7 +115,7 @@ function updateGameState(){
         })
     }
 
-    setTimeout(updateGameState, 500);
+    setTimeout(updateGameState);
 }
 
 
@@ -127,4 +127,3 @@ function S4() {
 // then to call it, plus stitch in '4' in the third group
 const guid = () => (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
  
-

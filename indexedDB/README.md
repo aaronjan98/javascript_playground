@@ -1,2 +1,0 @@
-# indexedDB
-IndexedDB tutorial
